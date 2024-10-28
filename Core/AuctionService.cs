@@ -1,45 +1,39 @@
-﻿using Auktion.Core.Interfaces;
+﻿using System.Collections.ObjectModel;
+using Auktion.Core.Interfaces;
 
 namespace Auktion.Core;
 
 public class AuctionService : IAuctionService
 {
-    private readonly AuctionContext _context;
+    private readonly IAuctionPersistence _persistence;
 
-    public AuctionService(AuctionContext context)
+    public AuctionService(IAuctionPersistence persistence)
     {
-        _context = context;
+        _persistence = persistence;
     }
 
-    public async Task<IEnumerable<Auction>> GetAuctionsAsync()
+    public Collection<Auction> GetAuctions()
     {
-        return await _context.Auctions.Include(a => a.Bids).ToListAsync();
+        return _persistence.GetAuctions();
     }
 
-    public async Task<Auction> GetAuctionByIdAsync(int id)
+    public Auction GetAuctionById(int id)
     {
-        return await _context.Auctions.Include(a => a.Bids).FirstOrDefaultAsync(a => a.AuctionId == id);
+        return _persistence.GetAuctionById(id);
     }
 
-    public async Task CreateAuctionAsync(Auction auction)
+    public void CreateAuction(Auction auction)
     {
-        _context.Auctions.Add(auction);
-        await _context.SaveChangesAsync();
+        _persistence.CreateAuction(auction);
     }
 
-    public async Task UpdateAuctionAsync(Auction auction)
+    public void UpdateAuction(Auction auction)
     {
-        _context.Auctions.Update(auction);
-        await _context.SaveChangesAsync();
+        _persistence.UpdateAuction(auction);
     }
 
-    public async Task DeleteAuctionAsync(int id)
+    public void DeleteAuction(int id)
     {
-        var auction = await _context.Auctions.FindAsync(id);
-        if (auction != null)
-        {
-            _context.Auctions.Remove(auction);
-            await _context.SaveChangesAsync();
-        }
+        _persistence.DeleteAuction(id);
     }
 }

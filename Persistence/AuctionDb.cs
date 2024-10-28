@@ -15,7 +15,7 @@ public class AuctionDb
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }
 
-    public string Username { get; set; }
+    public string OwnerId { get; set; }
 
     public ICollection<Bid> Bids { get; set; }  // Relationen till bud
 }

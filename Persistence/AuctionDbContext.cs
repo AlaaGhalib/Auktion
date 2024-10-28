@@ -1,12 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-public class AuctionContext : DbContext
+namespace Auktion.Persistence;
+
+public class AuctionDbContext : DbContext
 {
-    public AuctionContext(DbContextOptions<AuctionContext> options)
+    public AuctionDbContext(DbContextOptions<AuctionDbContext> options)
         : base(options)
     {
     }
     
-    //public DbSet<Auction> Auctions { get; set; }
-    //public DbSet<Bid> Bids { get; set; }
+    public DbSet<AuctionDb> Auctions { get; set; }
+    public DbSet<BidDb> Bids { get; set; }
 }
