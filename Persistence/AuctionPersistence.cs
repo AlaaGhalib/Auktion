@@ -9,14 +9,13 @@ namespace Auktion.Persistence;
 
 public class AuctionPersistence : IAuctionPersistence
 {
+    private AuctionDbContext _context;
+    private IMapper _mapper;
     public AuctionPersistence(AuctionDbContext context, IMapper mapper)
     {
         _context = context;
         _mapper = mapper;
     }
-
-    private AuctionDbContext _context;
-    private IMapper _mapper;
     
     public Collection<Auction> GetAuctions()
     {

@@ -17,5 +17,5 @@ public class AuctionDb
 
     public string OwnerId { get; set; }
 
-    public ICollection<Bid> Bids { get; set; }  // Relationen till bud
+    public ICollection<BidDb> Bids { get; set; }  // Relationen till bud
 }
