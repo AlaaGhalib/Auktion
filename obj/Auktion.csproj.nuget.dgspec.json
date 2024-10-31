@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\koder\\Distro\\Auktion\\Auktion\\Auktion\\Auktion.csproj": {}
+    "C:\\Auktion\\Auktion.csproj": {}
   },
   "projects": {
-    "C:\\koder\\Distro\\Auktion\\Auktion\\Auktion\\Auktion.csproj": {
+    "C:\\Auktion\\Auktion.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\koder\\Distro\\Auktion\\Auktion\\Auktion\\Auktion.csproj",
+        "projectUniqueName": "C:\\Auktion\\Auktion.csproj",
         "projectName": "Auktion",
-        "projectPath": "C:\\koder\\Distro\\Auktion\\Auktion\\Auktion\\Auktion.csproj",
-        "packagesPath": "C:\\Users\\Alaa\\.nuget\\packages\\",
-        "outputPath": "C:\\koder\\Distro\\Auktion\\Auktion\\Auktion\\obj\\",
+        "projectPath": "C:\\Auktion\\Auktion.csproj",
+        "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
+        "outputPath": "C:\\Auktion\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Alaa\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -75,7 +75,7 @@
             },
             "MySql.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[8.0.5, )"
+              "version": "[9.0.0-preview, )"
             }
           },
           "imports": [
