@@ -50,8 +50,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/koder/Distro/Auktion/Auktion/Auktion/Views/Auctions/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVjdGlvbnNcSW5kZXguY3NodG1s
+[C:/koder/Distro/Auktion/Auktion/Auktion/Views/Auction/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVjdGlvblxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/koder/Distro/Auktion/Auktion/Auktion/Views/Auction/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXVjdGlvblxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/koder/Distro/Auktion/Auktion/Auktion/Views/Home/Index.cshtml]

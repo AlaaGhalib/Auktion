@@ -26,7 +26,7 @@ namespace Auktion.Controllers
                 AuctionVm auctionVm = AuctionVm.ToAuctionVm(auction);
                 auctionsVm.Add(auctionVm);
             }
-            return View(auctionsVm);
+            return View("Index",auctionsVm);
         }
 
         // GET: AuctionController/Details/5
