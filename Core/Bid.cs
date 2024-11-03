@@ -6,4 +6,5 @@ public class Bid
     public decimal Amount { get; set; }
     public DateTime Time { get; set; }
     public string UserId { get; set; }
+    public int AuctionId { get; set; }
 }

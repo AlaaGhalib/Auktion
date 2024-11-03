@@ -10,7 +10,7 @@ public class AuctionDb
     [MaxLength(128)]
     public string Title { get; set; }
     public string Description { get; set; }
-    [Range(1, Double.MaxValue)]
+    [Range(0.01, double.MaxValue)]
     public decimal StartingPrice { get; set; }
     public DateTime StartTime { get; set; }
     public DateTime EndTime { get; set; }

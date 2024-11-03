@@ -1,46 +1,91 @@
 using System.Collections.ObjectModel;
+using System.Security.Claims;
 using Auktion.Core;
 using Auktion.Core.Interfaces;
 using Auktion.Models.Auctions;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auktion.Controllers
 {
     public class AuctionController : Controller
     {
-        private IAuctionService _auctionService;
+        private readonly IAuctionService _auctionService;
+        private readonly IBidService _bidService; 
+        private readonly IMapper _mapper;
 
-        public AuctionController(IAuctionService auctionService)
+        // Inject IMapper in the constructor
+        public AuctionController(IAuctionService auctionService, IBidService bidService, IMapper mapper)
         {
             _auctionService = auctionService;
+            _bidService = bidService;
+            _mapper = mapper;
         }
         
         // GET: AuctionController
         public ActionResult Index()
         {
-            Collection<Auction> auctions = _auctionService.GetAuctions();
-            Collection<AuctionVm> auctionsVm = new Collection<AuctionVm>();
+            // Use _mapper to map Collection<Auction> to Collection<AuctionVm>
+            var auctions = _auctionService.GetAuctions();
+            var auctionsVm = _mapper.Map<Collection<AuctionVm>>(auctions);
             
-            foreach (var auction in auctions)
-            {
-                AuctionVm auctionVm = AuctionVm.ToAuctionVm(auction);
-                auctionsVm.Add(auctionVm);
-            }
-            return View("Index",auctionsVm);
+            return View("Index", auctionsVm);
         }
 
         // GET: AuctionController/Details/5
         public ActionResult Details(int id)
         {
-            Auction auction = _auctionService.GetAuctionById(id);
-            if (auction == null) return BadRequest();
+            var auction = _auctionService.GetAuctionById(id);
+            if (auction == null)
+            {
+                return NotFound();
+            }
             
-            AuctionDetails ADVM = AuctionDetails.ToAuctionVm(auction);
-            return View(ADVM);
+            // Map Auction to AuctionDetails
+            var auctionDetailsVm = _mapper.Map<AuctionVm>(auction);
+            
+            return View(auctionDetailsVm);
         }
-/*
+        
+        // GET: AuctionController/PlaceBid
+        public ActionResult PlaceBid(int id)
+        {
+            var auction = _auctionService.GetAuctionById(id);
+            if (auction == null)
+            {
+                return NotFound();
+            }
+
+            var bidVm = new BidVm(); 
+            ViewBag.AuctionId = id;  
+            return View(bidVm); 
+        }
+
+        // POST: AuctionController/PlaceBid
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> PlaceBid(int auctionId, BidVm bidVm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(bidVm);
+            }
+            var auction = _auctionService.GetAuctionById(auctionId);
+            if (auction == null)
+            {
+                return NotFound();
+            }
+            var bid = _mapper.Map<Bid>(bidVm);
+            bid.Time = DateTime.Now;
+            bid.AuctionId = auctionId;
+            bid.UserId = "AnonymousUser";
+            _bidService.CreateBid(bid);
+            return RedirectToAction("Details", new { id = auctionId });
+        }
+
         // GET: AuctionController/Create
-        public ActionResult Create()
+        [HttpGet]
+        public IActionResult Create()
         {
             return View();
         }
@@ -48,60 +93,95 @@ namespace Auktion.Controllers
         // POST: AuctionController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(AuctionVm auctionVm)
         {
-            try
+            if (!ModelState.IsValid)
             {
+                Console.WriteLine("ModelState is invalid.");
+                foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+                {
+                    Console.WriteLine(error.ErrorMessage);
+                }
+                return View(auctionVm);
+            }
+
+            try
+            { 
+                var auction = _mapper.Map<Auction>(auctionVm);
+                auction.OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
+                _auctionService.CreateAuction(auction);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
-                return View();
+                throw new Exception("Could not save auction: " + ex.Message, ex);
+             
             }
         }
 
-        // GET: AuctionController/Edit/5
-        public ActionResult Edit(int id)
+
+        [HttpGet]
+        public IActionResult Edit(int id)
         {
-            return View();
+            var auction = _auctionService.GetAuctionById(id);
+            if (auction == null)
+            {
+                return NotFound();
+            }
+            var auctionVm = _mapper.Map<AuctionVm>(auction);
+            return View(auctionVm);
         }
 
         // POST: AuctionController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public IActionResult Edit(int id, AuctionVm auctionVm)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(auctionVm);
+            }
             try
             {
-                return RedirectToAction(nameof(Index));
+                var auction = _mapper.Map<Auction>(auctionVm);
+                auction.OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                _auctionService.UpdateAuction(auction);
+                return RedirectToAction(nameof(Index)); 
             }
             catch
             {
-                return View();
+                ModelState.AddModelError("", "An error occurred while updating the auction.");
+                return View(auctionVm);
             }
         }
 
         // GET: AuctionController/Delete/5
-        public ActionResult Delete(int id)
+        [HttpGet]
+        public IActionResult Delete(int id)
         {
-            return View();
+            var auction = _auctionService.GetAuctionById(id);
+            if (auction == null)
+            {
+                return NotFound();
+            }
+            var auctionVm = _mapper.Map<AuctionVm>(auction);
+            return View(auctionVm);
         }
 
-        // POST: AuctionController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public IActionResult DeleteConfirmed(int id)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                _auctionService.DeleteAuction(id);
+                return RedirectToAction(nameof(Index)); 
             }
             catch
             {
-                return View();
+                ModelState.AddModelError("", "An error occurred while deleting the auction.");
+                return RedirectToAction(nameof(Delete), new { id }); 
             }
         }
-        */
     }
-    
 }

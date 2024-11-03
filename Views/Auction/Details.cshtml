@@ -1,11 +1,11 @@
 @using Auktion.Models.Auctions
-@model AuctionDetails
+@model AuctionVm
 
 @{
-ViewData["Title"] = "Details";
+ViewData["Title"] = "Auction Details";
 }
 
-<h1>Details</h1>
+<h1>Auction Details</h1>
 
 <div>
     <h4>Auction Details</h4>
@@ -26,10 +26,10 @@ ViewData["Title"] = "Details";
         </dd>
 
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StartPrice)
+            @Html.DisplayNameFor(model => model.StartingPrice)
         </dt>
         <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.StartPrice)
+            @Html.DisplayFor(model => model.StartingPrice)
         </dd>
 
         <dt class="col-sm-2">
@@ -49,38 +49,37 @@ ViewData["Title"] = "Details";
 </div>
 
 <p />
+
 <div>
     <h4>Bids</h4>
+    @if (Model.Bids != null && Model.Bids.Any())
+    {
     <table class="table">
         <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Bids.FirstOrDefault().Amount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Bids.FirstOrDefault().Date)
-            </th>
-            <th>
-                @Html.DisplayName("User ID")
-            </th>
+            <th>@Html.DisplayNameFor(model => model.Bids.First().Amount)</th>
+            <th>@Html.DisplayNameFor(model => model.Bids.First().Date)</th>
+            <th>@Html.DisplayName("User ID")</th>
         </tr>
         </thead>
         <tbody>
         @foreach (var bid in Model.Bids)
         {
         <tr>
-            <td>
-                @Html.DisplayFor(_ => bid.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(_ => bid.Date)
-            </td>
+            <td>@Html.DisplayFor(_ => bid.Amount)</td>
+            <td>@Html.DisplayFor(_ => bid.Date)</td>
         </tr>
         }
         </tbody>
     </table>
+    }
+    else
+    {
+    <p>No bids have been placed yet.</p>
+    }
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="PlaceBid" asp-route-id="@Model.AuctionId" class="btn btn-primary">Place a Bid</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>

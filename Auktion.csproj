@@ -20,8 +20,4 @@
       <PackageReference Include="MySql.EntityFrameworkCore" Version="9.0.0-preview" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Views\Auction\" />
-    </ItemGroup>
-
 </Project>
