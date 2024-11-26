@@ -38,22 +38,28 @@ public class AuctionPersistence : IAuctionPersistence
 
     public void UpdateAuction(Auction auction)
     {
-        var auctionDb = _context.Find<AuctionDb>(auction.AuctionId);
-        if (auctionDb == null)
-            throw new NullReferenceException("Auction could not be found");
-
-        _context.Entry(auctionDb).CurrentValues.SetValues(auction);
+        if (auction == null)
+        {
+            throw new ArgumentNullException(nameof(auction), "Auction cannot be null.");
+        }
+        var auctionDb = _mapper.Map<AuctionDb>(auction);
+        var existingAuction = _context.Auctions.Find(auctionDb.AuctionId);
+        if (existingAuction == null)
+        {
+            throw new KeyNotFoundException($"Auction with ID {auctionDb.AuctionId} not found.");
+        }
+        existingAuction.Description = auctionDb.Description;
         _context.SaveChanges();
     }
+
+
 
     public void DeleteAuction(int id)
     {
         var auction = _context.Auctions.Find(id);
-        if (auction != null)
-        {
-            _context.Auctions.Remove(auction);
-            _context.SaveChanges();
-        }
+        if (auction == null) return;
+        _context.Auctions.Remove(auction);
+        _context.SaveChanges();
     }
     
 }

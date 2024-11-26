@@ -12,5 +12,8 @@ public class BidProfile : Profile
     {
         CreateMap<BidDb, Bid>().ReverseMap();
         CreateMap<Bid, BidVm>().ReverseMap();
+        CreateMap<BidDb, Bid>()
+            .ForMember(dest => dest.Time, opt => opt.MapFrom(src => src.Time));
+
     }
 }

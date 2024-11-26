@@ -1,0 +1,51 @@
+@model IEnumerable<Auktion.Models.Auctions.AuctionVm>
+
+@{
+ViewData["Title"] = "Your Bids on Ongoing Auctions";
+
+// Fetch query string's search term
+string searchQuery = ViewContext.HttpContext.Request.Query["search"];
+}
+
+<h2>Your Bids on Ongoing Auctions</h2>
+
+<!-- Search Field -->
+<form method="get">
+    <div class="form-group">
+        <input type="text" name="search" class="form-control" placeholder="Search auctions..." value="@searchQuery" />
+        <button type="submit" class="btn btn-primary mt-2">Search</button>
+    </div>
+</form>
+
+@if (!Model.Any())
+{
+<p>You haven't placed any bids on ongoing auctions.</p>
+}
+else
+{
+<table class="table">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Starting Price</th>
+        <th>End Time</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var auction in Model)
+    {
+    <tr>
+        <td>@auction.Title</td>
+        <td>@auction.Description</td>
+        <td>@auction.StartingPrice.ToString("C")</td>
+        <td>@auction.EndTime.ToString("f")</td>
+        <td>
+            <a asp-action="Details" asp-route-id="@auction.AuctionId" class="btn btn-info">Details</a>
+        </td>
+    </tr>
+    }
+    </tbody>
+</table>
+}

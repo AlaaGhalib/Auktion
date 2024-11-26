@@ -1,43 +1,51 @@
 @model Auktion.Models.Auctions.AuctionVm
 
 @{
-ViewData["Title"] = "Edit Auction";
+    ViewData["Title"] = "Edit Auction Description";
 }
 
-<h2>Edit Auction</h2>
+<h2>Edit Auction Description</h2>
 
 <form asp-action="Edit" method="post">
+    <!-- Hidden field for AuctionId -->
     <input type="hidden" asp-for="AuctionId" />
+
+    <!-- Title (Read-only Display with Hidden Input) -->
     <div class="form-group">
         <label asp-for="Title"></label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
+        <p class="form-control-plaintext">@Model.Title</p> <!-- Non-editable display -->
+        <input type="hidden" asp-for="Title" /> <!-- Hidden input to retain value -->
     </div>
 
+    <!-- Editable Description -->
     <div class="form-group">
         <label asp-for="Description"></label>
-        <input asp-for="Description" class="form-control" />
+        <textarea asp-for="Description" class="form-control"></textarea> <!-- Editable -->
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
 
+    <!-- Starting Price (Read-only Display with Hidden Input) -->
     <div class="form-group">
         <label asp-for="StartingPrice"></label>
-        <input asp-for="StartingPrice" class="form-control" type="number" step="0.01" />
-        <span asp-validation-for="StartingPrice" class="text-danger"></span>
+        <p class="form-control-plaintext">@Model.StartingPrice.ToString("C")</p> <!-- Non-editable display -->
+        <input type="hidden" asp-for="StartingPrice" /> <!-- Hidden input to retain value -->
     </div>
-    
+
+    <!-- Start Time (Read-only Display with Hidden Input) -->
     <div class="form-group">
         <label asp-for="StartTime"></label>
-        <input asp-for="StartTime" type="datetime-local" class="form-control" />
-        <span asp-validation-for="StartTime" class="text-danger"></span>
+        <p class="form-control-plaintext">@Model.StartTime.ToString("f")</p> <!-- Non-editable display -->
+        <input type="hidden" asp-for="StartTime" /> <!-- Hidden input to retain value -->
     </div>
 
+    <!-- End Time (Read-only Display with Hidden Input) -->
     <div class="form-group">
         <label asp-for="EndTime"></label>
-        <input asp-for="EndTime" type="datetime-local" class="form-control" />
-        <span asp-validation-for="EndTime" class="text-danger"></span>
+        <p class="form-control-plaintext">@Model.EndTime.ToString("f")</p> <!-- Non-editable display -->
+        <input type="hidden" asp-for="EndTime" /> <!-- Hidden input to retain value -->
     </div>
 
+    <!-- Submit and Cancel Buttons -->
     <button type="submit" class="btn btn-primary">Save</button>
     <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>

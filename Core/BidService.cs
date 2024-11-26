@@ -14,7 +14,10 @@ public class BidService : IBidService
     
     public Collection<Bid> GetBids()
     {
-        return _persistence.GetBids();
+        var sortedBids = _persistence.GetBids()
+            .OrderByDescending(b => b.Amount) 
+            .ToList();
+        return new Collection<Bid>(sortedBids);
     }
 
     public Bid GetBidById(int Id)

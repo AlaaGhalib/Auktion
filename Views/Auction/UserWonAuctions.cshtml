@@ -1,0 +1,36 @@
+@model IEnumerable<Auktion.Models.Auctions.AuctionVm>
+
+@{
+ViewData["Title"] = "Auctions You've Won";
+}
+
+<h1>Auctions You've Won</h1>
+
+@if (!Model.Any())
+{
+<p>You haven't won any auctions yet.</p>
+}
+else
+{
+<table class="table">
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Winning Bid</th>
+        <th>End Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var auction in Model)
+    {
+    <tr>
+        <td>@auction.Title</td>
+        <td>@auction.Description</td>
+        <td>@auction.Bids.Max(b => b.Amount).ToString("C")</td>
+        <td>@auction.EndTime.ToString("f")</td>
+    </tr>
+    }
+    </tbody>
+</table>
+}

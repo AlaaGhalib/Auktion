@@ -1,9 +1,12 @@
 using System.Collections.ObjectModel;
 using System.Security.Claims;
+using Auktion.Areas.Identity.Data;
 using Auktion.Core;
 using Auktion.Core.Interfaces;
 using Auktion.Models.Auctions;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Auktion.Controllers
@@ -12,23 +15,25 @@ namespace Auktion.Controllers
     {
         private readonly IAuctionService _auctionService;
         private readonly IBidService _bidService; 
+        private readonly UserManager<AuktionUser> _userManager;
         private readonly IMapper _mapper;
 
         // Inject IMapper in the constructor
-        public AuctionController(IAuctionService auctionService, IBidService bidService, IMapper mapper)
+        public AuctionController(IAuctionService auctionService, IBidService bidService, IMapper mapper, UserManager<AuktionUser> userManager)
         {
             _auctionService = auctionService;
             _bidService = bidService;
             _mapper = mapper;
+            _userManager = userManager;
         }
         
         // GET: AuctionController
         public ActionResult Index()
         {
-            // Use _mapper to map Collection<Auction> to Collection<AuctionVm>
             var auctions = _auctionService.GetAuctions();
+            ViewBag.AuctionOwners = auctions.ToDictionary(a => a.AuctionId, a => a.OwnerId);
+            ViewBag.userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var auctionsVm = _mapper.Map<Collection<AuctionVm>>(auctions);
-            
             return View("Index", auctionsVm);
         }
 
@@ -40,10 +45,14 @@ namespace Auktion.Controllers
             {
                 return NotFound();
             }
-            
-            // Map Auction to AuctionDetails
+            var bidderNames = auction.Bids
+                .Select(b => b.UserId)
+                .Distinct()
+                .ToDictionary(userId => userId, userId => _userManager.FindByIdAsync(userId).Result?.UserName ?? "Unknown");
+            ViewBag.BidderNames = bidderNames;
+            ViewBag.BidUserIds = auction.Bids.Select(b => b.UserId).ToList();
             var auctionDetailsVm = _mapper.Map<AuctionVm>(auction);
-            
+            ViewBag.CreatorUserId = auction.OwnerId;
             return View(auctionDetailsVm);
         }
         
@@ -68,21 +77,31 @@ namespace Auktion.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.AuctionId = auctionId; 
                 return View(bidVm);
+                
             }
             var auction = _auctionService.GetAuctionById(auctionId);
             if (auction == null)
             {
                 return NotFound();
             }
+            var highestBid = auction.Bids.OrderByDescending(b => b.Amount).FirstOrDefault();
+            if (highestBid != null && bidVm.Amount <= highestBid.Amount)
+            {
+                ModelState.AddModelError("Amount", "Your bid must be higher than the current highest bid.");
+                ViewBag.AuctionId = auctionId;
+                return View(bidVm);
+            }
+
             var bid = _mapper.Map<Bid>(bidVm);
             bid.Time = DateTime.Now;
             bid.AuctionId = auctionId;
-            bid.UserId = "AnonymousUser";
+            bid.UserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             _bidService.CreateBid(bid);
             return RedirectToAction("Details", new { id = auctionId });
         }
-
+        
         // GET: AuctionController/Create
         [HttpGet]
         public IActionResult Create()
@@ -119,14 +138,18 @@ namespace Auktion.Controllers
             }
         }
 
-
         [HttpGet]
         public IActionResult Edit(int id)
-        {
+        { 
             var auction = _auctionService.GetAuctionById(id);
             if (auction == null)
             {
                 return NotFound();
+            }
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (auction.OwnerId != userId)
+            {
+                return Forbid();
             }
             var auctionVm = _mapper.Map<AuctionVm>(auction);
             return View(auctionVm);
@@ -135,26 +158,27 @@ namespace Auktion.Controllers
         // POST: AuctionController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, AuctionVm auctionVm)
+        public IActionResult Edit(AuctionVm model)
         {
             if (!ModelState.IsValid)
             {
-                return View(auctionVm);
+                return View(model);
             }
             try
             {
-                var auction = _mapper.Map<Auction>(auctionVm);
-                auction.OwnerId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                _auctionService.UpdateAuction(auction);
-                return RedirectToAction(nameof(Index)); 
+                _auctionService.UpdateAuction(model.AuctionId, model.Description);
+                return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception ex)
             {
+                Console.WriteLine($"Error updating auction: {ex.Message}");
                 ModelState.AddModelError("", "An error occurred while updating the auction.");
-                return View(auctionVm);
+                return View(model);
             }
         }
 
+
+        
         // GET: AuctionController/Delete/5
         [HttpGet]
         public IActionResult Delete(int id)
@@ -163,6 +187,11 @@ namespace Auktion.Controllers
             if (auction == null)
             {
                 return NotFound();
+            }
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (auction.OwnerId != userId)
+            {
+                return Forbid();
             }
             var auctionVm = _mapper.Map<AuctionVm>(auction);
             return View(auctionVm);
@@ -183,5 +212,33 @@ namespace Auktion.Controllers
                 return RedirectToAction(nameof(Delete), new { id }); 
             }
         }
+        
+        [Authorize]
+        public IActionResult UserBids(string search)
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized(); 
+            }
+            var auctions = _auctionService.GetUserBidsOnOngoingAuctions(userId, search);
+            var auctionsVm = _mapper.Map<List<AuctionVm>>(auctions);
+            return View(auctionsVm);
+        }
+        
+        [Authorize]
+        public IActionResult UserWonAuctions()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return Unauthorized();
+            }
+            var wonAuctions = _auctionService.GetWonAuctions(userId);
+            var auctionVms = _mapper.Map<List<AuctionVm>>(wonAuctions);
+            return View(auctionVms);
+        }
+
     }
+
 }

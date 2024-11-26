@@ -1,8 +1,12 @@
-@using Auktion.Models.Auctions
-@model AuctionVm
+@using Microsoft.AspNetCore.Identity
+@model Auktion.Models.Auctions.AuctionVm
 
 @{
 ViewData["Title"] = "Auction Details";
+
+var loggedInUserId = User?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+var creatorUserId = ViewBag.CreatorUserId as string;
+var bidderNames = ViewBag.BidderNames as Dictionary<string, string>;
 }
 
 <h1>Auction Details</h1>
@@ -57,17 +61,28 @@ ViewData["Title"] = "Auction Details";
     <table class="table">
         <thead>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.Bids.First().Amount)</th>
-            <th>@Html.DisplayNameFor(model => model.Bids.First().Date)</th>
-            <th>@Html.DisplayName("User ID")</th>
+            <th>Bidder Name</th>
+            <th>@Html.DisplayNameFor(model => Model.Bids.First().Amount)</th>
+            <th>@Html.DisplayNameFor(model => Model.Bids.First().Time)</th>
         </tr>
         </thead>
         <tbody>
-        @foreach (var bid in Model.Bids)
+        @{
+        var bidUserIds = ViewBag.BidUserIds as List<string>;
+        var bidsList = Model.Bids.ToList(); 
+        }
+
+        @for (int i = 0; i < bidsList.Count; i++)
         {
+        var bid = bidsList[i];
+        var userId = bidUserIds?[i];
+        var bidderName = ViewBag.BidderNames != null && userId != null && ViewBag.BidderNames.ContainsKey(userId)
+        ? ViewBag.BidderNames[userId]
+        : "Unknown";
         <tr>
+            <td>@bidderName</td>
             <td>@Html.DisplayFor(_ => bid.Amount)</td>
-            <td>@Html.DisplayFor(_ => bid.Date)</td>
+            <td>@Html.DisplayFor(_ => bid.Time)</td>
         </tr>
         }
         </tbody>
@@ -79,7 +94,13 @@ ViewData["Title"] = "Auction Details";
     }
 </div>
 
+
+
 <div>
+    <!-- Show "Place a Bid" only if the logged-in user is not the creator -->
+    @if (creatorUserId != loggedInUserId)
+    {
     <a asp-action="PlaceBid" asp-route-id="@Model.AuctionId" class="btn btn-primary">Place a Bid</a>
+    }
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
 </div>
