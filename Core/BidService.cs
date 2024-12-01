@@ -1,42 +1,47 @@
 ﻿using System.Collections.ObjectModel;
 using Auktion.Core.Interfaces;
+using Auktion.Persistence;
 
 namespace Auktion.Core;
 
 public class BidService : IBidService
 {
-    private readonly IBidPersistence _persistence;
-
-    public BidService(IBidPersistence persistence)
+    private readonly IGenericPersistence<BidDb,Bid> _bidPersistence;
+    public BidService(IGenericPersistence<BidDb,Bid> bidPersistence)
     {
-        _persistence = persistence;
+        _bidPersistence = bidPersistence;
     }
-    
+
     public Collection<Bid> GetBids()
     {
-        var sortedBids = _persistence.GetBids()
-            .OrderByDescending(b => b.Amount) 
+        var sortedBids = _bidPersistence.Get()
+            .OrderByDescending(b => b.Amount)
             .ToList();
         return new Collection<Bid>(sortedBids);
     }
 
-    public Bid GetBidById(int Id)
+    public Bid GetBidById(int id)
     {
-        return _persistence.GetBidById(Id);
+        var bid = _bidPersistence.GetById(id);
+        if (bid == null)
+        {
+            throw new KeyNotFoundException($"Bid with ID {id} not found.");
+        }
+        return bid;
     }
 
-    public void CreateBid(Bid Bid)
+    public void CreateBid(Bid bid)
     {
-        _persistence.CreateBid(Bid);
+        _bidPersistence.Create(bid);
     }
 
-    public void UpdateBid(Bid Bid)
+    public void UpdateBid(Bid bid)
     {
-        _persistence.UpdateBid(Bid);
+        _bidPersistence.Update(bid);
     }
 
     public void DeleteBid(int id)
     {
-        _persistence.DeleteBid(id);
+        _bidPersistence.Remove(id);
     }
 }

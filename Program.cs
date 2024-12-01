@@ -18,11 +18,12 @@ builder.Services.AddDbContext<AuctionDbContext>(options =>
 
 // Register custom services and persistence layer for dependency injection
 builder.Services.AddScoped<IAuctionService, AuctionService>();
-builder.Services.AddScoped<IAuctionPersistence, AuctionPersistence>();
+builder.Services.AddScoped<IBidService, BidService>();
 
-// Add BidService and other dependencies as scoped services
-builder.Services.AddScoped<IBidService, BidService>(); // Register IBidService and its implementation
-builder.Services.AddScoped<IBidPersistence, BidPersistence>(); // Register IBidPersistence and its implementation
+// Use GenericPersistence for both Auctions and Bids
+builder.Services.AddScoped<IGenericPersistence<AuctionDb,Auction>, GenericPersistence<Auction, AuctionDb>>();
+builder.Services.AddScoped<IGenericPersistence<BidDb,Bid>, GenericPersistence<Bid, BidDb>>();
+
 
 // Register the Identity context and default identity configuration
 builder.Services.AddDbContext<AuktionContext>(options =>

@@ -137,7 +137,8 @@ namespace Auktion.Controllers
              
             }
         }
-
+        
+        [Authorize]
         [HttpGet]
         public IActionResult Edit(int id)
         { 
