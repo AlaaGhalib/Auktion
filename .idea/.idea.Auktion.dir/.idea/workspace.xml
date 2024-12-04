@@ -10,17 +10,26 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ffdb0528-98c0-4b84-82e3-cc0c05e9ed5a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Core/Interfaces/IGenericPersistence.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Persistence/GenericPersistence.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Areas/Identity/Data/RoleInitializer.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Controllers/AdminController.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Models/Auctions/AdminRegisterVm.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Views/Admin/ManageAuctions.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Views/Admin/ManageUsers.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Views/Admin/UserAuctions.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Auktion.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Auktion.dir/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Areas/Identity/Data/AuktionUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Areas/Identity/Data/AuktionUser.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Controllers/AuctionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AuctionController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Core/AuctionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/AuctionService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/BidService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/BidService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Interfaces/IAuctionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Interfaces/IAuctionService.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/Auction/Delete.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/Admin/DeleteAuction.cshtml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/Shared/_Layout.cshtml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net8.0/Auktion.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net8.0/Auktion.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net8.0/Auktion.exe" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net8.0/Auktion.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/bin/Debug/net8.0/Auktion.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net8.0/Auktion.pdb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.csproj.CoreCompileInputs.cache" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.pdb" afterDir="false" />
@@ -28,6 +37,7 @@
       <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/apphost.exe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/ref/Auktion.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/ref/Auktion.dll" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/refint/Auktion.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/refint/Auktion.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +50,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/a0922e5a63e5eb26ba2495739913294c4e481d8cf628aefd399a83fcbaef2/AllowAnonymousAttribute.cs" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
   &quot;associatedIndex&quot;: 1
@@ -49,21 +62,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    ".NET Launch Settings Profile.Auktion: IIS Express.executor": "Run",
-    ".NET Launch Settings Profile.Auktion: http.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "project.propDebugger",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;.NET Launch Settings Profile.Auktion: IIS Express.executor&quot;: &quot;Run&quot;,
+    &quot;.NET Launch Settings Profile.Auktion: http.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;project.propDebugger&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected=".NET Launch Settings Profile.Auktion: http">
     <configuration name="Auktion: IIS Express" type="LaunchSettings" factoryName=".NET Launch Settings Profile">
       <option name="LAUNCH_PROFILE_PROJECT_FILE_PATH" value="$PROJECT_DIR$/Auktion.csproj" />
@@ -121,6 +134,7 @@
       <updated>1730235718960</updated>
       <workItem from="1730235720952" duration="7602000" />
       <workItem from="1731907891357" duration="78091000" />
+      <workItem from="1733097271391" duration="31265000" />
     </task>
     <servers />
   </component>

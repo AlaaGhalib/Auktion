@@ -93,7 +93,12 @@ namespace Auktion.Controllers
                 ViewBag.AuctionId = auctionId;
                 return View(bidVm);
             }
-
+            if (auction.StartingPrice > bidVm.Amount)
+            {
+                ModelState.AddModelError("Amount", "Your bid must be higher than the starting price.");
+                ViewBag.AuctionId = auctionId;
+                return View(bidVm);
+            }
             var bid = _mapper.Map<Bid>(bidVm);
             bid.Time = DateTime.Now;
             bid.AuctionId = auctionId;
@@ -175,42 +180,6 @@ namespace Auktion.Controllers
                 Console.WriteLine($"Error updating auction: {ex.Message}");
                 ModelState.AddModelError("", "An error occurred while updating the auction.");
                 return View(model);
-            }
-        }
-
-
-        
-        // GET: AuctionController/Delete/5
-        [HttpGet]
-        public IActionResult Delete(int id)
-        {
-            var auction = _auctionService.GetAuctionById(id);
-            if (auction == null)
-            {
-                return NotFound();
-            }
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (auction.OwnerId != userId)
-            {
-                return Forbid();
-            }
-            var auctionVm = _mapper.Map<AuctionVm>(auction);
-            return View(auctionVm);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
-        {
-            try
-            {
-                _auctionService.DeleteAuction(id);
-                return RedirectToAction(nameof(Index)); 
-            }
-            catch
-            {
-                ModelState.AddModelError("", "An error occurred while deleting the auction.");
-                return RedirectToAction(nameof(Delete), new { id }); 
             }
         }
         

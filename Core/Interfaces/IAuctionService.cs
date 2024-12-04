@@ -6,11 +6,12 @@ namespace Auktion.Core.Interfaces;
 public interface IAuctionService
 {
     Collection<Auction> GetAuctions();
+    Collection<Auction> GetAllAuctions();
     Auction GetAuctionById(int id);
     void CreateAuction(Auction auction);
     void UpdateAuction(int id, string description);
     void DeleteAuction(int id);
     List<Auction> GetUserBidsOnOngoingAuctions(string userId, string search = null);
     IEnumerable<Auction> GetWonAuctions(string userId);
-
+    IEnumerable<Auction> GetAuctionsByUserId(string id);
 }

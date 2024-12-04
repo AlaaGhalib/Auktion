@@ -13,7 +13,6 @@ public class AuctionService : IAuctionService
     {
         _auctionPersistence = auctionPersistence;
     }
-
     public Collection<Auction> GetAuctions()
     {
         var currentDateTime = DateTime.Now;
@@ -21,13 +20,17 @@ public class AuctionService : IAuctionService
             .Get(a => a.EndTime > currentDateTime, a => a.Bids) 
             .OrderBy(a => a.EndTime)
             .ToList();
-
         foreach (var auction in ongoingAuctions)
         {
             auction.Bids = auction.Bids?.OrderByDescending(b => b.Amount).ToList() ?? new List<Bid>();
         }
-
         return new Collection<Auction>(ongoingAuctions);
+    }
+
+    public Collection<Auction> GetAllAuctions()
+    {
+        var auctions = _auctionPersistence.Get().OrderBy(a => a.EndTime).ToList();
+        return new Collection<Auction>(auctions);
     }
 
     public Auction GetAuctionById(int id)
@@ -93,5 +96,9 @@ public class AuctionService : IAuctionService
             a => a.Bids 
         );
         return auctions.ToList();
+    }
+    public IEnumerable<Auction> GetAuctionsByUserId(string userId)
+    {
+        return _auctionPersistence.Get().Where(a => a.OwnerId == userId).ToList();
     }
 }

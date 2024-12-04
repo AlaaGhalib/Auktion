@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Register services
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages(); // Register Razor Pages
 
 // Register AuctionDbContext with MySQL configuration
 builder.Services.AddDbContext<AuctionDbContext>(options =>
@@ -28,11 +29,23 @@ builder.Services.AddScoped<IGenericPersistence<BidDb,Bid>, GenericPersistence<Bi
 // Register the Identity context and default identity configuration
 builder.Services.AddDbContext<AuktionContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("IdentityConnection")));
-builder.Services.AddDefaultIdentity<AuktionUser>(options => 
-        options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<AuktionContext>();
+builder.Services.AddIdentity<AuktionUser, IdentityRole>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = true;
+        options.Password.RequireDigit = true;
+        options.Password.RequireLowercase = true;
+        options.Password.RequireUppercase = true;
+        options.Password.RequiredLength = 6;
+        options.Password.RequireNonAlphanumeric = true;
+    })
+    .AddEntityFrameworkStores<AuktionContext>()
+    .AddDefaultUI()  
+    .AddDefaultTokenProviders();
 
-// Add AutoMapper profiles
+builder.Services.AddAuthorizationBuilder()
+    .AddPolicy("AdminPolicy", policy =>
+        policy.RequireRole("Administrator").RequireClaim("AdminClaim", "True"));
+
 builder.Services.AddAutoMapper(typeof(AuctionProfile));
 builder.Services.AddAutoMapper(typeof(BidProfile));
 
@@ -44,10 +57,23 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
 
+    try
+    {
+        await RoleInitializer.InitializeRolesAndAdminAsync(services);
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Error initializing roles and admin: {ex.Message}");
+    }
+}
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();  
 app.UseAuthorization();
 
 app.MapRazorPages();

@@ -18,6 +18,6 @@ ViewData["Title"] = "Delete Auction";
 <form asp-action="DeleteConfirmed" method="post">
     <input type="hidden" name="id" value="@Model.AuctionId" />
     <button type="submit" class="btn btn-danger">Delete</button>
-    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    <a asp-action="ManageAuctions" class="btn btn-secondary">Cancel</a>
 </form>
 

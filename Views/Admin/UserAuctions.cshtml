@@ -1,0 +1,38 @@
+@model IEnumerable<Auktion.Models.Auctions.AuctionVm>
+
+@{
+ViewData["Title"] = "User Auctions";
+}
+
+<h1 class="mb-4">Auctions by @ViewBag.UserName</h1>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-header">
+        <h5 class="card-title">Auction List</h5>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Starting Price</th>
+                <th>Start Time</th>
+                <th>End Time</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var auction in Model)
+            {
+            <tr>
+                <td>@auction.Title</td>
+                <td>@auction.Description</td>
+                <td>@auction.StartingPrice</td>
+                <td>@auction.StartTime</td>
+                <td>@auction.EndTime</td>
+            </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
