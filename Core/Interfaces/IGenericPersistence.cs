@@ -15,7 +15,7 @@ namespace Auktion.Core.Interfaces
         /// <param name="includes">Navigation properties to include.</param>
         /// <returns>Collection of domain entities.</returns>
         Collection<TDomain> Get(
-            Expression<Func<TDb, bool>> filter = null,
+            Expression<Func<TDb, bool>>? filter = null,
             params Expression<Func<TDb, object>>[] includes);
 
         /// <summary>

@@ -22,7 +22,7 @@ namespace Auktion.Persistence
             _mapper = mapper;
         }
 
-        public Collection<TDomain> Get(Expression<Func<TDb, bool>> filter = null, params Expression<Func<TDb, object>>[] includes)
+        public Collection<TDomain> Get(Expression<Func<TDb, bool>>? filter = null, params Expression<Func<TDb, object>>[] includes)
         {
             IQueryable<TDb> query = _dbSet.AsNoTracking();
             if (filter != null)

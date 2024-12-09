@@ -20,15 +20,13 @@ namespace Auktion.Areas.Identity.Data
 
             var adminUser = await userManager.FindByEmailAsync(adminEmail);
             if (adminUser == null)
-            {
-                // Create a new admin user
+            { 
                 adminUser = new AuktionUser
                 {
                     UserName = adminEmail,
                     Email = adminEmail,
                     EmailConfirmed = true
                 };
-
                 var createResult = await userManager.CreateAsync(adminUser, adminPassword);
                 if (!createResult.Succeeded)
                 {

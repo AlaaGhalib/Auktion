@@ -10,34 +10,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ffdb0528-98c0-4b84-82e3-cc0c05e9ed5a" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Areas/Identity/Data/RoleInitializer.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Controllers/AdminController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Models/Auctions/AdminRegisterVm.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Views/Admin/ManageAuctions.cshtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Views/Admin/ManageUsers.cshtml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Views/Admin/UserAuctions.cshtml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/readme.md-fil" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.Auktion.dir/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Auktion.dir/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Areas/Identity/Data/AuktionUser.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Areas/Identity/Data/AuktionUser.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Controllers/AuctionController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Controllers/AuctionController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/AuctionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/AuctionService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Core/Interfaces/IAuctionService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Interfaces/IAuctionService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Views/Auction/Delete.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/Admin/DeleteAuction.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Views/Shared/_Layout.cshtml" beforeDir="false" afterPath="$PROJECT_DIR$/Views/Shared/_Layout.cshtml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net8.0/Auktion.dll" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net8.0/Auktion.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net8.0/Auktion.exe" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net8.0/Auktion.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/Debug/net8.0/Auktion.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/bin/Debug/net8.0/Auktion.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Areas/Identity/Data/RoleInitializer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Areas/Identity/Data/RoleInitializer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Core/Interfaces/IGenericPersistence.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Core/Interfaces/IGenericPersistence.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Persistence/GenericPersistence.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Persistence/GenericPersistence.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.AssemblyInfo.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.AssemblyInfoInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.csproj.CoreCompileInputs.cache" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.pdb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/Auktion.sourcelink.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/apphost.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/ref/Auktion.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/ref/Auktion.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/Debug/net8.0/refint/Auktion.dll" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net8.0/refint/Auktion.dll" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/obj/rider.project.model.nuget.info" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +113,8 @@
       <updated>1730235718960</updated>
       <workItem from="1730235720952" duration="7602000" />
       <workItem from="1731907891357" duration="78091000" />
-      <workItem from="1733097271391" duration="31265000" />
+      <workItem from="1733097271391" duration="35402000" />
+      <workItem from="1733763334075" duration="353000" />
     </task>
     <servers />
   </component>
